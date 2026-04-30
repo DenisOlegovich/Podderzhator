@@ -1,12 +1,12 @@
-import { SUPPORT_PHRASES } from './support-phrases.js'
+import { phraseAt, SUPPORT_PHRASE_COUNT } from './support-phrases.js'
 
 export type Gender = 'male' | 'female'
 
-/** 120 фраз; пол смещает индекс, чтобы при одном seed текст отличался. */
+/** 777 фраз с учётом пола (мужская / женская грамматика). Смещение даёт другую «линию» при смене пола при том же seed. */
 export function pickMessage(seed: number, gender: Gender): string {
-  const offset = gender === 'female' ? 59 : 0
-  const i = Math.abs(seed + offset) % SUPPORT_PHRASES.length
-  return SUPPORT_PHRASES[i]!
+  const skew = gender === 'female' ? 193 : 0
+  const i = Math.abs(seed + skew) % SUPPORT_PHRASE_COUNT
+  return phraseAt(i, gender)
 }
 
 export function parseGender(value: unknown): Gender {
